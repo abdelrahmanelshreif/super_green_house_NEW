@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:green_house/Cubit/login_cubit.dart';
+import 'package:green_house/cubit/login_cubit.dart';
 import 'package:green_house/View/OnboardingScreen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:green_house/constants/constimage.dart';
@@ -28,8 +28,15 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LoginCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => LoginCubit(),
+        ),
+        // BlocProvider(
+        //   create: (context) => SubjectBloc(),
+        // ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
 

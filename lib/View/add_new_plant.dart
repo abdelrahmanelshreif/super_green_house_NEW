@@ -8,7 +8,6 @@ class PlantFormDialog extends StatefulWidget {
   _PlantFormDialogState createState() => _PlantFormDialogState();
 }
 
-
 class _PlantFormDialogState extends State<PlantFormDialog> {
   final formKey = GlobalKey<FormState>();
   TextEditingController _titleController = TextEditingController();
@@ -19,9 +18,7 @@ class _PlantFormDialogState extends State<PlantFormDialog> {
   TextEditingController _familyController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
 
-
   @override
-
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Add Plant'),
@@ -82,7 +79,10 @@ class _PlantFormDialogState extends State<PlantFormDialog> {
               String kingdom = _kingdomController.text;
               String family = _familyController.text;
               String description = _descriptionController.text;
-              plantDataList.add(PlantData(planetImgSrc: image, planetKingdom: kingdom, planetFamily: family));
+              plantDataList.add(PlantData(
+                  planetImgSrc: image,
+                  planetKingdom: kingdom,
+                  planetFamily: family));
               // Do something with the form data, e.g., send it to a database
               print('Title: $title');
               print('Feature 1: $feature1');
@@ -92,15 +92,18 @@ class _PlantFormDialogState extends State<PlantFormDialog> {
               print('Family: $family');
               print('Description: $description');
 
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => MyPlanetApp(),));            }
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => MyPlanetApp(),
+              ));
+            }
           },
           child: Text('Save'),
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => MyPlanetApp(),));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => MyPlanetApp(),
+            ));
           },
           child: Text('Cancel'),
         ),

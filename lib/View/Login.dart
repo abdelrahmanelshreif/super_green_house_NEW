@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:green_house/controller/bottom_nav_bar_controller.dart';
 import 'package:green_house/homepage/homescreen.dart';
 import 'package:green_house/view/SignUp.dart';
+import 'package:green_house/cubit/login_cubit.dart';
+// import '../Cubit/login_cubit.dart';
 
-import '../Cubit/login_cubit.dart';
 import 'OnboardingScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -247,13 +248,15 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.only(right: 20),
           child: Center(
             child: InkWell(
-              onTap: () {
-                cubit.ChangeLogin;
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyPlanetApp()),
-                  (route) => false,
-                );
+              onTap: () async {
+                if (form.currentState!.validate()) {
+                  await cubit
+                    ..changeLogin(
+                        email: _phoneControler.text,
+                        password: _passwordControler.text);
+                }
+
+                // Get.offAll(MainScreen());
               },
               child: Container(
                 width: 340,
@@ -289,3 +292,5 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+
