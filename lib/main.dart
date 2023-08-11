@@ -11,10 +11,13 @@ import 'package:green_house/View/species_search.dart';
 import 'package:green_house/View/planet_details_screen.dart';
 import 'package:green_house/View/profile_screen.dart';
 
+import 'controller/dio_healper.dart';
+
 void main() async {
   runApp(const MyApp());
   await Hive.initFlutter();
   Hive.openBox(plant1);
+  DioHelper.init();
 }
 
 class MyApp extends StatefulWidget {

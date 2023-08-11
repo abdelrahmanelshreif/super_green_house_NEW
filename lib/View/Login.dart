@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:green_house/controller/bottom_nav_bar_controller.dart';
 import 'package:green_house/homepage/homescreen.dart';
 import 'package:green_house/view/SignUp.dart';
@@ -121,11 +123,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             InkWell(
               onTap: () {
-                cubit.SignUpChange(context);
-                /* Navigator.pushReplacement(
+             //   cubit.SignUpChange(context);
+                Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => Sign_UP()),
-            );*/
+            );
               },
               child: Text(
                 "Sign Up",
@@ -210,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: _phoneControler,
               // obscureText: obsecureText,
               validator: (value) {
-                if (_phoneControler.text.length != 11) {
+                if (_phoneControler.text.isEmpty) {
                   isCorrect = false;
                   return "Your name should be 11 letter";
                 }
@@ -243,18 +245,29 @@ class _LoginScreenState extends State<LoginScreen> {
     final cubit = context.read<LoginCubit>();
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
+        if (state is LoginLoadingState) {
+          return Center(child: CircularProgressIndicator());
+        }
         return Padding(
           padding: const EdgeInsets.only(right: 20),
           child: Center(
             child: InkWell(
-              onTap: () {
+              onTap: () async {
+                if (form.currentState!.validate()) {
+                  await context.read<LoginCubit>().login(
+                      email: _phoneControler.text,
+                      password: _passwordControler.text);
+                }
+
+             //    Get.offAll(homescreen());
+              }, /*() {
                 cubit.ChangeLogin;
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => MyPlanetApp()),
                   (route) => false,
                 );
-              },
+              },*/
               child: Container(
                 width: 340,
                 height: 50,
