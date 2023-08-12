@@ -1,39 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:green_house/View/planet_widgets.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:green_house/model/planet_data_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:green_house/controller/bottom_nav_bar_controller.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
-class PlantData {
-  final String planetImgSrc;
-  final String planetKingdom;
-  final String planetFamily;
-
-  PlantData({
-    required this.planetImgSrc,
-    required this.planetKingdom,
-    required this.planetFamily,
-  });
+Future getPlanetDataList() async {
+  Hive.registerAdapter(PlanetDataModelAdapter());
+  var myDataBox = await Hive.openBox<PlanetDataModel>('plants');
+  final dataList = myDataBox.values.toList();
+  return dataList;
 }
-void newPlantAdd(String planetImgSrc,String planetKingdom,String planetFamily)
-{
-  plantDataList.add(PlantData(planetImgSrc: planetImgSrc, planetKingdom: planetKingdom, planetFamily: planetFamily));
-}
-final List<PlantData> plantDataList = [
-  PlantData(
-    planetImgSrc: 'images/png/cactus.png',
-    planetKingdom: 'Plantae',
-    planetFamily: 'Cactacecae',
-  ),
-  PlantData(
-    planetImgSrc: 'images/png/spinach.png',
-    planetKingdom: 'Plantae',
-    planetFamily: 'Rosaceae',
-  ),
-];
-
+Future<T> hIVE
 class PlanetDetailsScreen extends StatefulWidget {
   const PlanetDetailsScreen({super.key});
 
@@ -46,21 +26,43 @@ class _PlanetDetailsScreenState extends State<PlanetDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: LayoutBuilder(
-        builder: (context, constraints) {
+        builder: (context, constraints)
+        {
           final boxConstraints = constraints;
           final double topPosition = constraints.maxHeight * 0.066;
           final double leftPosition = constraints.maxWidth * 0.05;
           final double deviceWidth = constraints.maxWidth;
           final double deviceHeight = constraints.maxHeight;
 
-          return _buildPlants(
-            constraints,
-            topPosition,
-            leftPosition,
-            deviceHeight,
-            deviceWidth,
-            plantDataList: plantDataList,
+
+          // return _buildPlants(
+          //   boxConstraints,
+          //   topPosition,
+          //   leftPosition,
+          //   deviceHeight,
+          //   deviceWidth,
+          //   plantDataList: getPlanetDataList(),
+          // );
+          return FutureBuilder<List<PlanetDataModel>>(
+            future: _planetDataList,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator(); // Show a loading indicator
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return _buildPlants(
+                  constraints,
+                  topPosition,
+                  leftPosition,
+                  deviceHeight,
+                  deviceWidth,
+                  plantDataList: snapshot.data!,
+                );
+              }
+            },
           );
+        },
         },
       ),
       // bottomNavigationBar: buildBottomNavBar(),
@@ -74,7 +76,7 @@ Widget _buildPlants(
   double leftPosition,
   double deviceHeight,
   double deviceWidth, {
-  required List<PlantData> plantDataList,
+  dynamic plantDataList,
 }) {
   return PageView.builder(
       itemCount: plantDataList.length,
@@ -107,7 +109,7 @@ Column _buildPlantPage(
         children: [
           buildPlanetImageDetailsScreen(
               planetImg: planetImgSrc, constraints: constraints),
-          buildBackBtn(context,topPosition, leftPosition),
+          buildBackBtn(context, topPosition, leftPosition),
           buildmoreSettingBtn(topPosition, leftPosition),
           buildHeartOnPlanetLogo(topPosition, leftPosition),
         ],

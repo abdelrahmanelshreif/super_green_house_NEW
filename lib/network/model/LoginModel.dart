@@ -1,8 +1,7 @@
-
 class LoginModel {
-  bool? status;
   String? message;
   Data? data;
+  bool? status;
 
   LoginModel({
     this.status,

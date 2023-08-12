@@ -30,7 +30,7 @@ class DioHelper {
     Map<String, dynamic>? queryParams,
   }) async {
     final response =
-        await dio!.post(url, data: body, queryParameters: queryParams);
+    await dio!.post(url, data: body, queryParameters: queryParams);
 
     return response;
   }
@@ -46,9 +46,11 @@ class DioHelper {
     return response;
   }
 
-  /// Put
+/// Put
 
-  /// Patch
+/// Patch
 
-  /// Delete
+/// Delete
 }
+
+

@@ -20,15 +20,16 @@ class PlanetDataModelAdapter extends TypeAdapter<PlanetDataModel> {
       planetName: fields[0] as String,
       planetFeatures: (fields[1] as List).cast<String>(),
       planetDesc: fields[2] as String,
-      kingdom: fields[3] as String,
-      family: fields[4] as String,
+      planetKingdom: fields[3] as String,
+      planetFamily: fields[4] as String,
+      planetImgSrc: fields[5] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, PlanetDataModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.planetName)
       ..writeByte(1)
@@ -36,9 +37,11 @@ class PlanetDataModelAdapter extends TypeAdapter<PlanetDataModel> {
       ..writeByte(2)
       ..write(obj.planetDesc)
       ..writeByte(3)
-      ..write(obj.kingdom)
+      ..write(obj.planetKingdom)
       ..writeByte(4)
-      ..write(obj.family);
+      ..write(obj.planetFamily)
+      ..writeByte(5)
+      ..write(obj.planetImgSrc);
   }
 
   @override

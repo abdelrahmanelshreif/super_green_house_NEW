@@ -11,16 +11,18 @@ class PlanetDataModel extends HiveObject {
   @HiveField(2)
   final String planetDesc;
   @HiveField(3)
-  final String kingdom;
+  final String planetKingdom;
   @HiveField(4)
-  final String family;
+  final String planetFamily;
+  @HiveField(5)
+  final String planetImgSrc;
 
   PlanetDataModel({
     required this.planetName,
     required this.planetFeatures,
     required this.planetDesc,
-    required this.kingdom,
-    required this.family,
-    // required this.planetName,
+    required this.planetKingdom,
+    required this.planetFamily,
+    required this.planetImgSrc,
   });
 }

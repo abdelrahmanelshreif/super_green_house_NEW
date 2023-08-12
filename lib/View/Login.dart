@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:green_house/controller/bottom_nav_bar_controller.dart';
 import 'package:green_house/homepage/homescreen.dart';
 import 'package:green_house/view/SignUp.dart';
 import 'package:green_house/cubit/login_cubit.dart';
-// import '../Cubit/login_cubit.dart';
-
 import 'OnboardingScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  _LoginButton(),
+                  _LoginButton(context),
                   SizedBox(
                     height: 20,
                   ),
@@ -122,11 +122,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             InkWell(
               onTap: () {
-                cubit.SignUpChange(context);
-                /* Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => Sign_UP()),
-            );*/
+                //   cubit.SignUpChange(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Sign_UP()),
+                );
               },
               child: Text(
                 "Sign Up",
@@ -211,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: _phoneControler,
               // obscureText: obsecureText,
               validator: (value) {
-                if (_phoneControler.text.length != 11) {
+                if (_phoneControler.text.isEmpty) {
                   isCorrect = false;
                   return "Your name should be 11 letter";
                 }
@@ -227,37 +227,47 @@ class _LoginScreenState extends State<LoginScreen> {
                 fillColor: Color(0xFBFDFF),
                 suffixIcon: isCorrect
                     ? Icon(
-                        Icons.check,
-                        color: Colors.green,
-                      )
+                  Icons.check,
+                  color: Colors.green,
+                )
                     : Icon(
-                        Icons.check, color: Colors.red,
-                        //   color: Colors.green,
-                      ),
+                  Icons.check, color: Colors.red,
+                  //   color: Colors.green,
+                ),
               ))
         ],
       ),
     );
   }
 
-  BlocBuilder<LoginCubit, LoginState> _LoginButton() {
+  BlocBuilder<LoginCubit, LoginState> _LoginButton(BuildContext context) {
     final cubit = context.read<LoginCubit>();
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
+        if (state is LoginLoadingState) {
+          return Center(child: CircularProgressIndicator());
+        }
         return Padding(
           padding: const EdgeInsets.only(right: 20),
           child: Center(
             child: InkWell(
               onTap: () async {
                 if (form.currentState!.validate()) {
-                  await cubit
-                    ..changeLogin(
-                        email: _phoneControler.text,
-                        password: _passwordControler.text);
+                  await context.read<LoginCubit>().login(
+                      email: _phoneControler.text,
+                      password: _passwordControler.text);
                 }
 
-                // Get.offAll(MainScreen());
+                //    Get.offAll(homescreen());
               },
+              /*() {
+                cubit.ChangeLogin;
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyPlanetApp()),
+                  (route) => false,
+                );
+              },*/
               child: Container(
                 width: 340,
                 height: 50,
@@ -292,5 +302,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-
