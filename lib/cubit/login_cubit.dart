@@ -44,6 +44,9 @@ class LoginCubit extends Cubit<LoginState> {
 
       if(loginModel.status==true){
         Get.Get.offAll(homescreen());
+        Get.Get.snackbar(response.data["message"], " Succsefull",
+            backgroundColor: Colors.brown);
+
       }else{
         Get.Get.snackbar(response.data["message"], " Error",
             backgroundColor: Colors.red);
@@ -57,21 +60,5 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-/*
-final form = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
-
-  void ChangeLogin() {
-    form.currentState?.validate();
-    emit(LoginChangeButton());
-  }
-
-  void SignUpChange(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => Sign_UP()),
-    );
-    emit(SignUpChangeButton());
-  }*/
 }
 

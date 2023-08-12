@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:green_house/controller/bottom_nav_bar_controller.dart';
 import 'package:green_house/homepage/homescreen.dart';
@@ -144,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Padding _forgetPasswordandRemmberMe() {
-    return const Padding(
+    return  Padding(
       padding: EdgeInsets.only(right: 30),
       child: Row(
         children: [
@@ -159,10 +158,19 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Spacer(),
-          Text(
-            "Forget Password?",
-            style: TextStyle(
-              color: Colors.grey,
+          InkWell(
+            onTap: (){
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Sign_UP()),
+              );
+            },
+            child: Text(
+              "Forget Password?",
+              style: TextStyle(
+                color: Colors.black,
+              ),
             ),
           ),
         ],
@@ -259,7 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       password: _passwordControler.text);
                 }
 
-             //    Get.offAll(homescreen());
+              //   Get.offAll(homescreen());
               }, /*() {
                 cubit.ChangeLogin;
                 Navigator.pushAndRemoveUntil(

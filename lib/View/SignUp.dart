@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:green_house/View/Login.dart';
-import 'package:green_house/controller/bottom_nav_bar_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+
+import '../cubit/createaccount_cubit.dart';
+
 
 class Sign_UP extends StatefulWidget {
   const Sign_UP({super.key});
@@ -11,14 +14,14 @@ class Sign_UP extends StatefulWidget {
 }
 
 class _Sign_UPState extends State<Sign_UP> {
-  final _phoneControler = TextEditingController();
-  bool isCorrect = true;
+  final _phoneController = TextEditingController();
+
   final _form = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _key = GlobalKey();
-  final _passwordControler = TextEditingController();
-  final _nameConteroler = TextEditingController();
-  final _emailControler = TextEditingController();
-  final _confirmControler = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _confirmController = TextEditingController();
   bool obsecureText = true;
 
   void toggelpasswordText() {
@@ -34,7 +37,7 @@ class _Sign_UPState extends State<Sign_UP> {
         child: Form(
           key: _form,
           child: Padding(
-            padding: const EdgeInsets.only(top: 50),
+            padding: const EdgeInsets.only(top: 100),
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.only(left: 20),
@@ -61,28 +64,21 @@ class _Sign_UPState extends State<Sign_UP> {
                         child: Column(
                           children: [
                             TextFormField(
-                                controller: _nameConteroler,
-                                obscureText: obsecureText,
+                                controller: _nameController,
                                 validator: (value) {
-                                  if (_nameConteroler.text.length < 15) {
-                                    isCorrect = false;
-                                    return "Your character should be 15 letters";
+
+                                  if (_nameController.text.isEmpty) {
+
+                                    return "you should enter your name";
                                   }
+
 
                                   return null;
                                 },
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Color(0xFBFDFF),
-                                  suffixIcon: isCorrect
-                                      ? Icon(
-                                          Icons.check,
-                                          color: Colors.green,
-                                        )
-                                      : Icon(
-                                          Icons.check, color: Colors.red,
-                                          //   color: Colors.green,
-                                        ),
+
                                 )),
                           ],
                         ),
@@ -99,11 +95,11 @@ class _Sign_UPState extends State<Sign_UP> {
                         child: Column(
                           children: [
                             TextFormField(
-                                controller: _emailControler,
-                                obscureText: obsecureText,
+                                controller: _emailController,
                                 validator: (value) {
-                                  if (_emailControler.text.length < 15) {
-                                    isCorrect = false;
+
+                                  if (_emailController.text.length < 15) {
+
                                     return "Your email should be 15 letters";
                                   }
 
@@ -112,17 +108,9 @@ class _Sign_UPState extends State<Sign_UP> {
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Color(0xFBFDFF),
-                                  label: Text("n@****",
+                                  label: Text("n@**",
                                       style: TextStyle(color: Colors.grey)),
-                                  suffixIcon: isCorrect
-                                      ? Icon(
-                                          Icons.dangerous,
-                                          color: Colors.grey,
-                                        )
-                                      : Icon(
-                                          Icons.check, color: Colors.red,
-                                          //   color: Colors.green,
-                                        ),
+
                                 )),
                           ],
                         ),
@@ -136,34 +124,25 @@ class _Sign_UPState extends State<Sign_UP> {
                         child: Column(
                           children: [
                             TextFormField(
-                                controller: _phoneControler,
-                                obscureText: obsecureText,
+                                controller: _phoneController,
+                                keyboardType: TextInputType.phone,
                                 validator: (value) {
-                                  if (_phoneControler.text.length < 11) {
-                                    isCorrect = false;
+
+                                  if (_phoneController.text.length !=11) {
+
                                     return "Your number should be 11 digits";
                                   }
-                                  if (_phoneControler.text[0] != "0") {
-                                    isCorrect = false;
+                                  if (_phoneController.text[0] != "0") {
                                     return "Your number should be start with 0";
                                   }
 
                                   return null;
                                 },
                                 decoration: InputDecoration(
-                                  label: Text("01****",
+                                  label: Text("01**",
                                       style: TextStyle(color: Colors.grey)),
                                   filled: true,
                                   fillColor: Color(0xFBFDFF),
-                                  suffixIcon: isCorrect
-                                      ? Icon(
-                                          Icons.check,
-                                          color: Colors.green,
-                                        )
-                                      : Icon(
-                                          Icons.check, color: Colors.red,
-                                          //   color: Colors.green,
-                                        ),
                                 ))
                           ],
                         ),
@@ -178,12 +157,10 @@ class _Sign_UPState extends State<Sign_UP> {
                       Padding(
                         padding: const EdgeInsets.only(right: 30),
                         child: TextFormField(
-                          controller: _passwordControler,
+                          controller: _passwordController,
                           obscureText: obsecureText,
                           validator: (value) {
-                            isCorrect = false;
-
-                            if (_passwordControler.text.length < 6) {
+                            if (_passwordController.text.length < 6) {
                               return "Password should be more than 6 characters";
                             } else {
                               return null;
@@ -217,18 +194,13 @@ class _Sign_UPState extends State<Sign_UP> {
                       Padding(
                         padding: const EdgeInsets.only(right: 30),
                         child: TextFormField(
-                          controller: _confirmControler,
+                          controller: _confirmController,
                           obscureText: obsecureText,
                           validator: (value) {
-                            isCorrect = false;
-
-                            if (_confirmControler.text.length < 6) {
-                              return "Password should be more than 6 characters";
+                            if (_confirmController.text != _passwordController.text) {
+                              return "Password not the same";
                             }
-                            if (_confirmControler.text.length !=
-                                _passwordControler.text.length) {
-                              return "Please enter password is correct";
-                            } else {
+                            else {
                               return null;
                             }
                           },
@@ -253,11 +225,80 @@ class _Sign_UPState extends State<Sign_UP> {
                       SizedBox(
                         height: 30,
                       ),
-                      _LoginButton(),
+                      BlocBuilder<CreateaccountCubit, CreateaccountState>(
+                        builder: (context, state) {
+                          if (state is CreateAccountLoading) {
+                            return Center(child:CircularProgressIndicator());
+                          }
+                          return  Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: Center(
+                              child: InkWell(
+                                onTap: () async{
+                                  if (_form.currentState!.validate()) {
+                                    await context.read<CreateaccountCubit>()
+                                        .createAccount(
+                                        name: _nameController.text,
+                                        phone: _phoneController.text,
+                                        email: _emailController.text,
+                                        password: _passwordController.text, context: context);
+                                  }
+                                },
+                                child: Container(
+                                  width: 340,
+                                  height: 50,
+                                  decoration: BoxDecoration(color: Colors.green),
+                                  child: Center(
+                                    child: Text("Sign Up",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold
+                                        )),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
               ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _signupbutton() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 20),
+      child: Center(
+        child: InkWell(
+          onTap: () async{
+            if (_form.currentState!.validate()) {
+              await context.read<CreateaccountCubit>()
+                  .createAccount(
+                  name: _nameController.text,
+                  phone: _phoneController.text,
+                  email: _emailController.text,
+                  password: _passwordController.text, context: context);
+            }
+          },
+          child: Container(
+            width: 340,
+            height: 50,
+            decoration: BoxDecoration(color: Colors.green),
+            child: Center(
+              child: Text("Sign Up",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold
+                  )),
             ),
           ),
         ),
@@ -274,42 +315,14 @@ class _Sign_UPState extends State<Sign_UP> {
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontSize: 15,
+            fontSize: 18,
           ),
         )
       ],
     );
   }
 
-  Padding _LoginButton() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 20),
-      child: Center(
-        child: InkWell(
-          onTap: () {
-            if (isCorrect == true) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MyPlanetApp()),(route) => false,
-              );
-              _form.currentState?.validate();
-              setState(() {});
-            }
-          },
-          child: Container(
-            width: 340,
-            height: 50,
-            decoration: BoxDecoration(color: Colors.green),
-            child: Center(
-              child: Text("LOGIN",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  )),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+
+
+
 }

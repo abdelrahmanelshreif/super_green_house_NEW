@@ -25,139 +25,141 @@ class _homescreenState extends State<homescreen> {
       backgroundColor: Color(0xfff9fafa),
       body: Column(
         children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                width: double.infinity,
-                height: 200,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    end: Alignment.topRight,
-                    begin: Alignment.bottomLeft,
-                    colors: [
-                      Color(0xFF61D2C4),
-                      Color(0xff29D890),
+          SingleChildScrollView(
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      end: Alignment.topRight,
+                      begin: Alignment.bottomLeft,
+                      colors: [
+                        Color(0xFF61D2C4),
+                        Color(0xff29D890),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: -60,
+                  right: -50,
+                  // bottom: deviceHeight*-0.5,
+                  child: Container(
+                    width: 204,
+                    height: 204,
+                    decoration: ShapeDecoration(
+                      color: Colors.white.withOpacity(0.15000000596046448),
+                      shape: OvalBorder(),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 100,
+                  right: -50,
+                  // bottom: deviceHeight*-0.5,
+                  child: Container(
+                    width: 124,
+                    height: 124,
+                    decoration: ShapeDecoration(
+                      color: Colors.white.withOpacity(0.15000000596046448),
+                      shape: OvalBorder(),
+                    ),
+                  ),
+                ),
+                Positioned(
+                    top: 125,
+                    right: -15,
+                    child: Text(
+                      "Home",
+                      style: TextStyle(
+                          fontSize: 90,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white.withOpacity(.2)),
+                    )),
+                Positioned(
+                  top: 100,
+                  left: 25,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Hello Taylor",
+                        style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Let’s Learn More About Plants",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xffFFFFFF)),
+                      )
                     ],
                   ),
                 ),
-              ),
-              Positioned(
-                top: -60,
-                right: -50,
-                // bottom: deviceHeight*-0.5,
-                child: Container(
-                  width: 204,
-                  height: 204,
-                  decoration: ShapeDecoration(
-                    color: Colors.white.withOpacity(0.15000000596046448),
-                    shape: OvalBorder(),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 100,
-                right: -50,
-                // bottom: deviceHeight*-0.5,
-                child: Container(
-                  width: 124,
-                  height: 124,
-                  decoration: ShapeDecoration(
-                    color: Colors.white.withOpacity(0.15000000596046448),
-                    shape: OvalBorder(),
-                  ),
-                ),
-              ),
-              Positioned(
-                  top: 125,
-                  right: -15,
-                  child: Text(
-                    "Home",
-                    style: TextStyle(
-                        fontSize: 90,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white.withOpacity(.2)),
-                  )),
-              Positioned(
-                top: 100,
-                left: 25,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Hello Taylor",
-                      style: TextStyle(
-                          fontSize: 21,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Let’s Learn More About Plants",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xffFFFFFF)),
-                    )
-                  ],
-                ),
-              ),
-              Positioned(
-                top: 100,
-                right: 25,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProfileScreen(),
-                        ));
-                  },
-                  child: Container(
-                    height: 47,
-                    width: 47,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                    clipBehavior: Clip.antiAlias,
-                    child: Image.asset(
-                      "assets/images/profile.png",
+                Positioned(
+                  top: 100,
+                  right: 25,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(),
+                          ));
+                    },
+                    child: Container(
+                      height: 47,
                       width: 47,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 172,
-                left: 40,
-                child: Container(
-                  width: 330,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Color(0xffD2D2D2),
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      hintText: 'Search For Plantes',
-                      hintStyle: TextStyle(
-                        color: Color(0xffD2D2D2),
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                      clipBehavior: Clip.antiAlias,
+                      child: Image.asset(
+                        "assets/images/profile.png",
+                        width: 47,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                Positioned(
+                  top: 172,
+                  left: 40,
+                  child: Container(
+                    width: 330,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Color(0xffD2D2D2),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        hintText: 'Search For Plantes',
+                        hintStyle: TextStyle(
+                          color: Color(0xffD2D2D2),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           SingleChildScrollView(
             child: Padding(
@@ -195,13 +197,15 @@ class _homescreenState extends State<homescreen> {
                   SizedBox(
                     height: 12,
                   ),
-                  Container(
-                    height: 155,
-                    child: ListView.builder(
-                      itemBuilder: (context, index) => _buildphotograpyitem(
-                          image: photographyList[index].image),
-                      itemCount: photographyList.length,
-                      scrollDirection: Axis.horizontal,
+                  SingleChildScrollView(
+                    child: Container(
+                      height: 140,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) => _buildphotograpyitem(
+                            image: photographyList[index].image),
+                        itemCount: photographyList.length,
+                        scrollDirection: Axis.horizontal,
+                      ),
                     ),
                   )
                 ],

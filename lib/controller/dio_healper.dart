@@ -14,8 +14,8 @@ class DioHelper {
       BaseOptions(
         baseUrl: 'https://student.valuxapps.com/api/',
         receiveDataWhenStatusError: true,
-        connectTimeout: Duration(seconds: 60),
-        receiveTimeout: Duration(seconds: 60),
+        connectTimeout: Duration(seconds: 15),
+        receiveTimeout: Duration(seconds: 15),
         responseType: ResponseType.json,
         headers: headers,
       ),
