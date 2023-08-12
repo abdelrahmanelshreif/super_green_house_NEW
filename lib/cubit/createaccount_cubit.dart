@@ -3,10 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as Get;
 import 'package:meta/meta.dart';
-import 'package:untitled1/Network/dio_helper.dart';
-import 'package:untitled1/controller/bottom_nav_bar_controller.dart';
-import 'package:untitled1/features/Sign_up/model/Sign_up.dart';
 
+import '../controller/bottom_nav_bar_controller.dart';
+import '../model/SignupModel.dart';
+import '../network/dio_helper.dart';
 part 'createaccount_state.dart';
 
 class CreateaccountCubit extends Cubit<CreateaccountState> {
@@ -22,7 +22,7 @@ class CreateaccountCubit extends Cubit<CreateaccountState> {
     required String password,
     required BuildContext context,
   }) async {
-    emit(Createaccountloading());
+    emit(CreateAccountLoading());
     try {
       final Response response = await _dioHelper.postData(
         url: "register",
@@ -36,19 +36,21 @@ class CreateaccountCubit extends Cubit<CreateaccountState> {
       final signupModel = SignUp.fromJson(response.data);
 
       if (signupModel.status == true) {
-        Get.Get.offAll( MyPlanetApp());
-        emit(Createaccountsuccess());
+        Get.Get.offAll(MyPlanetApp());
+        emit(CreateAccountSuccess());
+        Get.Get.snackbar(response.data["message"], " Successfull",
+            backgroundColor: Colors.blue);
       } else {
         Get.Get.snackbar(
           response.data["message"]," Error",
           backgroundColor: Colors.red,
         );
-        emit(Createaccounterror());
+        emit(CreateAccountError());
       }
     } catch (e) {
       Get.Get.snackbar("Check your internet", " Error",
           backgroundColor: Colors.red);
-      emit(Createaccounterror());
+      emit(CreateAccountError());
     }
   }
 }

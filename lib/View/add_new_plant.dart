@@ -13,7 +13,7 @@ class PlantFormDialog extends StatefulWidget {
 }
 
 class _PlantFormDialogState extends State<PlantFormDialog> {
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   TextEditingController _titleController = TextEditingController();
   TextEditingController _feature1Controller = TextEditingController();
   TextEditingController _feature2Controller = TextEditingController();
@@ -27,7 +27,7 @@ class _PlantFormDialogState extends State<PlantFormDialog> {
     return AlertDialog(
       title: Text('Add Plant'),
       content: Form(
-        key: formKey,
+        key: _formKey,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -74,7 +74,7 @@ class _PlantFormDialogState extends State<PlantFormDialog> {
       actions: [
         TextButton(
           onPressed: () async {
-            if (formKey.currentState!.validate()) {
+            if (_formKey.currentState!.validate()) {
               // Save the form data and close the dialog
               String title = _titleController.text;
               String feature1 = _feature1Controller.text;
@@ -91,12 +91,11 @@ class _PlantFormDialogState extends State<PlantFormDialog> {
                 planetKingdom: kingdom,
                 planetFamily: family,
                 planetImgSrc: image,
-
               );
 
-              Hive.registerAdapter(PlanetDataModelAdapter());
+
               final planetBox = await Hive.openBox<PlanetDataModel>('plants');
-              planetBox.add(planetData);
+              await planetBox.add(planetData);
 
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => MyPlanetApp(),

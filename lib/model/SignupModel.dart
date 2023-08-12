@@ -1,8 +1,8 @@
 class SignUp {
   SignUp({
-      this.status, 
-      this.message, 
-      this.data,});
+    this.status,
+    this.message,
+    this.data,});
 
   SignUp.fromJson(dynamic json) {
     status = json['status'];
@@ -27,12 +27,12 @@ class SignUp {
 
 class Data {
   Data({
-      this.name, 
-      this.phone, 
-      this.email, 
-      this.id, 
-      this.image, 
-      this.token,});
+    this.name,
+    this.phone,
+    this.email,
+    this.id,
+    this.image,
+    this.token,});
 
   Data.fromJson(dynamic json) {
     name = json['name'];

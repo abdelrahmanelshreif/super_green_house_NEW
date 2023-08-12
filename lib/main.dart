@@ -11,15 +11,16 @@ import 'package:green_house/View/species.dart';
 import 'package:green_house/View/species_search.dart';
 import 'package:green_house/View/planet_details_screen.dart';
 import 'package:green_house/View/profile_screen.dart';
-import 'package:path_provider/path_provider.dart' as path_provider; // Import this line for Hive initialization.
+import 'package:path_provider/path_provider.dart'
+    as path_provider; // Import this line for Hive initialization.
 
-
+import 'cubit/createaccount_cubit.dart';
 import 'model/planet_data_model.dart';
 import 'network/dio_helper.dart';
 
 void main() async {
-
-  Hive.initFlutter();
+  await Hive.initFlutter();
+  Hive.registerAdapter(PlanetDataModelAdapter());
   DioHelper.init();
 
   runApp(const MyApp());
@@ -28,7 +29,6 @@ void main() async {
   // Hive.init(appDocumentDir.path);
   // Hive.registerAdapter(PlanetDataModelAdapter());
   // Register your Hive adapter.
-
 }
 
 class MyApp extends StatefulWidget {
@@ -38,7 +38,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp>{
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -46,9 +46,9 @@ class _MyAppState extends State<MyApp>{
         BlocProvider(
           create: (context) => LoginCubit(),
         ),
-        // BlocProvider(
-        //   create: (context) => SubjectBloc(),
-        // ),
+        BlocProvider(
+          create: (context) => CreateaccountCubit(),
+        ),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,

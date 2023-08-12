@@ -7,13 +7,13 @@ import 'package:green_house/controller/bottom_nav_bar_controller.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
-Future getPlanetDataList() async {
-  Hive.registerAdapter(PlanetDataModelAdapter());
+Future<List<PlanetDataModel>> getPlanetDataList() async {
   var myDataBox = await Hive.openBox<PlanetDataModel>('plants');
   final dataList = myDataBox.values.toList();
+  print("JSON DATA LIST          " + dataList.toString());
   return dataList;
 }
-Future<T> hIVE
+
 class PlanetDetailsScreen extends StatefulWidget {
   const PlanetDetailsScreen({super.key});
 
@@ -22,75 +22,50 @@ class PlanetDetailsScreen extends StatefulWidget {
 }
 
 class _PlanetDetailsScreenState extends State<PlanetDetailsScreen> {
+  List<PlanetDataModel> plantDataList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    plantDataList = await getPlanetDataList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: LayoutBuilder(
-        builder: (context, constraints)
-        {
+        builder: (context, constraints) {
           final boxConstraints = constraints;
           final double topPosition = constraints.maxHeight * 0.066;
           final double leftPosition = constraints.maxWidth * 0.05;
           final double deviceWidth = constraints.maxWidth;
           final double deviceHeight = constraints.maxHeight;
 
-
-          // return _buildPlants(
-          //   boxConstraints,
-          //   topPosition,
-          //   leftPosition,
-          //   deviceHeight,
-          //   deviceWidth,
-          //   plantDataList: getPlanetDataList(),
-          // );
-          return FutureBuilder<List<PlanetDataModel>>(
-            future: _planetDataList,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator(); // Show a loading indicator
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                return _buildPlants(
+          return PageView.builder(
+              itemCount: plantDataList.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) => _buildPlantPage(
+                  context,
+                  plantDataList[index].planetImgSrc,
                   constraints,
                   topPosition,
                   leftPosition,
                   deviceHeight,
-                  deviceWidth,
-                  plantDataList: snapshot.data!,
-                );
-              }
-            },
-          );
-        },
+                  plantDataList[index].planetKingdom,
+                  plantDataList[index].planetFamily,
+                  deviceWidth));
         },
       ),
-      // bottomNavigationBar: buildBottomNavBar(),
     );
   }
-}
-
-Widget _buildPlants(
-  BoxConstraints constraints,
-  double topPosition,
-  double leftPosition,
-  double deviceHeight,
-  double deviceWidth, {
-  dynamic plantDataList,
-}) {
-  return PageView.builder(
-      itemCount: plantDataList.length,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) => _buildPlantPage(
-          context,
-          plantDataList[index].planetImgSrc,
-          constraints,
-          topPosition,
-          leftPosition,
-          deviceHeight,
-          plantDataList[index].planetKingdom,
-          plantDataList[index].planetFamily,
-          deviceWidth));
 }
 
 Column _buildPlantPage(

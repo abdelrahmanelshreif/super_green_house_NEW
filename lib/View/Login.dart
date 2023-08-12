@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  _LoginButton(context),
+                  _LoginButton(),
                   SizedBox(
                     height: 20,
                   ),
@@ -143,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Padding _forgetPasswordandRemmberMe() {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.only(right: 30),
       child: Row(
         children: [
@@ -158,10 +158,18 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Spacer(),
-          Text(
-            "Forget Password?",
-            style: TextStyle(
-              color: Colors.grey,
+          InkWell(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => Sign_UP()),
+              );
+            },
+            child: Text(
+              "Forget Password?",
+              style: TextStyle(
+                color: Colors.black,
+              ),
             ),
           ),
         ],
@@ -227,20 +235,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 fillColor: Color(0xFBFDFF),
                 suffixIcon: isCorrect
                     ? Icon(
-                  Icons.check,
-                  color: Colors.green,
-                )
+                        Icons.check,
+                        color: Colors.green,
+                      )
                     : Icon(
-                  Icons.check, color: Colors.red,
-                  //   color: Colors.green,
-                ),
+                        Icons.check, color: Colors.red,
+                        //   color: Colors.green,
+                      ),
               ))
         ],
       ),
     );
   }
 
-  BlocBuilder<LoginCubit, LoginState> _LoginButton(BuildContext context) {
+  BlocBuilder<LoginCubit, LoginState> _LoginButton() {
     final cubit = context.read<LoginCubit>();
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
@@ -258,7 +266,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       password: _passwordControler.text);
                 }
 
-                //    Get.offAll(homescreen());
+                //   Get.offAll(homescreen());
               },
               /*() {
                 cubit.ChangeLogin;
