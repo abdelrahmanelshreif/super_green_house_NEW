@@ -12,7 +12,7 @@ import 'package:green_house/View/species_search.dart';
 import 'package:green_house/View/planet_details_screen.dart';
 import 'package:green_house/View/profile_screen.dart';
 import 'package:path_provider/path_provider.dart'
-    as path_provider; // Import this line for Hive initialization.
+as path_provider; // Import this line for Hive initialization.
 
 import 'cubit/createaccount_cubit.dart';
 import 'model/planet_data_model.dart';
@@ -24,11 +24,6 @@ void main() async {
   DioHelper.init();
 
   runApp(const MyApp());
-  // WidgetsFlutterBinding.ensureInitialized();
-  // final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
-  // Hive.init(appDocumentDir.path);
-  // Hive.registerAdapter(PlanetDataModelAdapter());
-  // Register your Hive adapter.
 }
 
 class MyApp extends StatefulWidget {
